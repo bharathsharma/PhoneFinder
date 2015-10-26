@@ -9,12 +9,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.mc.phonefinder.R;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 
 public class GeoLocation extends ActionBarActivity implements LocationListener{
@@ -25,21 +28,36 @@ public class GeoLocation extends ActionBarActivity implements LocationListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geo_location);
-
-        //get current user
-        ParseUser user = ParseUser.getCurrentUser();
-
         //get the current location
-       getLocation();
+        getLocation();
 
+        //query to see if the user is already added to location
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
+        query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId().toString());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, ParseException e) {
+                //get current user
+                ParseUser user = ParseUser.getCurrentUser();
+                if (e == null) {
+                    if(scoreList.size()>0){
+                    //store the location of the user with the objectId of the user
+                    ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
+                    scoreList.get(0).put("location", point);
+                    scoreList.get(0).put("userId", user.getObjectId());
+                    scoreList.get(0).saveInBackground();}
+                    else
+                    {
+                        ParseObject locationObject = new ParseObject("Location");
+                        ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
+                        locationObject.put("location", point);
+                        locationObject.put("userId", user.getObjectId());
+                        locationObject.saveInBackground();
+                    }
+                } else {
 
-        //store the location of the user with the objectId of the user
-        ParseObject locationObject = new ParseObject("Location");
-        ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
-        locationObject.put("location",point);
-        locationObject.put("userId",user.getObjectId());
-        locationObject.saveInBackground();
-
+                }
+            }
+        });
     }
     public Location getLocation() {
         Location location = null;
