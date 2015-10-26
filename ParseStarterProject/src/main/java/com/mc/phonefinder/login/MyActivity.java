@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.mc.phonefinder.geolocation.GeoLocation;
 import com.parse.ParseUser;
+import com.mc.phonefinder.R;
 
 
 public class MyActivity extends Activity {
@@ -21,6 +23,13 @@ public class MyActivity extends Activity {
                 // Starts an intent of the log in activity
                 ParseUser.getCurrentUser().logOut();
                 startActivity(new Intent(MyActivity.this, DispatchActivity.class));
+            }
+        });
+
+        ((Button) findViewById(R.id.geoSetting)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Starts an intent of the log in activity
+                startActivity(new Intent(MyActivity.this, GeoLocation.class));
             }
         });
     }

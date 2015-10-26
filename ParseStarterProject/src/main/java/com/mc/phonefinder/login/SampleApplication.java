@@ -3,6 +3,8 @@ package com.mc.phonefinder.login;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.mc.phonefinder.R;
+
 
 public class SampleApplication extends Application {
 
