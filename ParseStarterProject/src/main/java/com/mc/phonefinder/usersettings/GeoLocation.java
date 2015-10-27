@@ -1,4 +1,4 @@
-package com.mc.phonefinder.geolocation;
+package com.mc.phonefinder.usersettings;
 
 import android.content.Context;
 import android.location.Location;

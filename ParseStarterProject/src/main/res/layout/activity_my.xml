@@ -38,17 +38,23 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Geo Setting"
-        android:id="@+id/geoSetting"
-        android:layout_alignBottom="@+id/horizontalScrollView"
-        android:layout_centerHorizontal="true" />
+        android:text="My Settings"
+        android:id="@+id/btn_user_pref"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/btn_find_phone"
+        android:layout_alignEnd="@+id/btn_find_phone" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alert Again"
-        android:id="@+id/alertSetting"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="Find Lost Phone"
+        android:id="@+id/btn_find_phone"
+        android:layout_alignTop="@+id/horizontalScrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/horizontalScrollView"
+        android:layout_alignEnd="@+id/horizontalScrollView" />
 
 </RelativeLayout>
