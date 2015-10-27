@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.mc.phonefinder.geolocation.GeoLocation;
+import com.mc.phonefinder.usersettings.GeoLocation;
 import com.parse.ParseUser;
 import com.mc.phonefinder.R;
 
