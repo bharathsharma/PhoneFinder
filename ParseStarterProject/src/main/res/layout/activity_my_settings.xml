@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/settingsText"
+    android:background="@color/secondary_text_default_material_light">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="My Phone Settings"
+        android:id="@+id/text_settings"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alert Location"
+        android:id="@+id/alertLocation"
+        android:checked="false"
+        android:layout_alignTop="@+id/alertUsers"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="43dp"
+        android:layout_marginStart="43dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alert Camera"
+        android:id="@+id/alertCamera"
+        android:checked="false"
+        android:layout_marginBottom="79dp"
+        android:layout_above="@+id/alertLocation"
+        android:layout_alignLeft="@+id/alertLocation"
+        android:layout_alignStart="@+id/alertLocation" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alert Other Users"
+        android:id="@+id/alertUsers"
+        android:checked="false"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/alertFall"
+        android:layout_alignStart="@+id/alertFall" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alert During Fall"
+        android:id="@+id/alertFall"
+        android:checked="false"
+        android:layout_alignTop="@+id/alertCamera"
+        android:layout_toRightOf="@+id/alertLocation"
+        android:layout_toEndOf="@+id/alertLocation"
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Settings"
+        android:id="@+id/saveSettings"
+        android:layout_below="@+id/alertLocation"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="94dp" />
+
+</RelativeLayout>

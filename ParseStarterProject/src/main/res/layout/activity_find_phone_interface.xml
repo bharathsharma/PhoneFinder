@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.mc.phonefinder.usersettings.FindPhoneInterface"
+    android:background="@color/secondary_text_default_material_light">
+
+    <TextView android:text="You can perform the following actions" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/findphoneinterface" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alert My Phone"
+        android:id="@+id/triggerAlert"
+        android:layout_below="@+id/viewLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="67dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Nearby Users"
+        android:id="@+id/nearbyUsers"
+        android:layout_alignTop="@+id/triggerAlert"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Location"
+        android:id="@+id/viewLocation"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="86dp"
+        android:layout_toStartOf="@+id/takePicture"
+        android:layout_alignRight="@+id/triggerAlert"
+        android:layout_alignEnd="@+id/triggerAlert" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Picture"
+        android:id="@+id/takePicture"
+        android:layout_alignTop="@+id/viewLocation"
+        android:layout_alignLeft="@+id/nearbyUsers"
+        android:layout_alignStart="@+id/nearbyUsers"
+        android:layout_alignRight="@+id/nearbyUsers"
+        android:layout_alignEnd="@+id/nearbyUsers" />
+
+</RelativeLayout>

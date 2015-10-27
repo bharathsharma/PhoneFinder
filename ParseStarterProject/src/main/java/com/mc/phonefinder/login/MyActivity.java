@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.mc.phonefinder.usersettings.GeoLocation;
+import com.mc.phonefinder.usersettings.MySettings;
 import com.parse.ParseUser;
 import com.mc.phonefinder.R;
 
@@ -25,11 +26,17 @@ public class MyActivity extends Activity {
                 startActivity(new Intent(MyActivity.this, DispatchActivity.class));
             }
         });
-
-        ((Button) findViewById(R.id.geoSetting)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.findLostPhone)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Starts an intent of the log in activity
-                startActivity(new Intent(MyActivity.this, GeoLocation.class));
+                startActivity(new Intent(MyActivity.this, FindPhoneActivity.class));
+            }
+        });
+
+        ((Button) findViewById(R.id.mySettings)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Starts an intent of the log in activity
+                startActivity(new Intent(MyActivity.this, MySettings.class));
             }
         });
     }

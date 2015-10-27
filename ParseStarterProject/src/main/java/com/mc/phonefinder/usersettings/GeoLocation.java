@@ -27,7 +27,7 @@ public class GeoLocation extends ActionBarActivity implements LocationListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_geo_location);
+        setContentView(R.layout.activity_my_settings);
         //get the current location
         getLocation();
 

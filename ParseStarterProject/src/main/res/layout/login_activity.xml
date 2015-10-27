@@ -6,7 +6,8 @@
     android:padding="10dp"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@color/primary_material_light">
+    android:background="@color/secondary_text_default_material_light"
+    >
 
     <TextView
         android:text="Username"
@@ -31,9 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:imeActionId="@+id/login"
-        android:imeActionLabel="Sign In"
-        android:imeOptions="actionUnspecified"
         android:inputType="textPassword"
         android:maxLines="1"
         android:singleLine="true" />

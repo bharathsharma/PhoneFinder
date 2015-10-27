@@ -44,5 +44,9 @@
     <string name="error_join">", and "</string>
     <string name="error_end">.</string>
     <string name="title_activity_geo_location">GeoLocation</string>
+    <string name="title_activity_my_settings">MySettings</string>
+    <string name="title_activity_find_phone">FindPhoneActivity</string>
+    <string name="title_activity_find_phone_interface">FindPhoneInterface</string>
+    <string name="title_activity_nearby_user_view">NearbyUserView</string>
 
 </resources>
