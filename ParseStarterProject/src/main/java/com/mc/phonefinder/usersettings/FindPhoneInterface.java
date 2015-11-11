@@ -12,7 +12,14 @@ import com.mc.phonefinder.R;
 import com.mc.phonefinder.login.FindPhoneActivity;
 
 public class FindPhoneInterface extends ActionBarActivity {
+/*
+For the below: check if the setting is set for the user and if so let the user use the functionality.
+View location - Referes to location column in Settings table
+Take Picture - Referes to camera in Settings table
+View nearby users - Refers to otherUsers in Settings table
 
+Alert my phone - Rings the phone to easily identify it
+ */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
