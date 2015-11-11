@@ -2,6 +2,7 @@ package com.mc.phonefinder.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.provider.SyncStateContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import java.util.List;
 
 public class FindPhoneActivity extends ActionBarActivity {
     private EditText usernameView;
+    SampleApplication gs = new SampleApplication();
     private EditText passwordView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +93,13 @@ public class FindPhoneActivity extends ActionBarActivity {
                                             dlg.show();
                                             for (ParseUser a : listUser) {
                                                 if (a.getUsername().trim().equals(usernameView.getText().toString().trim())) {
-                                                    startActivity(new Intent(FindPhoneActivity.this, FindPhoneInterface.class));
+
+                                                    Intent i = new Intent();
+                                                    gs.setUserId(a.getUsername());
+                                                    i.setClass(FindPhoneActivity.this, FindPhoneInterface.class);
+                                                    i.putExtra("userObjectId",a.getObjectId());
+                                                    startActivity(i);
                                                 }
-                                                System.out.print(a.getUsername());
                                             }
                                         }
                                         else

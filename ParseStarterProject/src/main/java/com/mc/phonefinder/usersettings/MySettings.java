@@ -21,6 +21,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import android.content.SharedPreferences;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -104,6 +105,8 @@ public class MySettings extends ActionBarActivity {
                                 scoreList.get(0).put("otherUser", checkbox4.isChecked());
                                 scoreList.get(0).put("alertWord", accessCode.getText().toString().trim());
                                 scoreList.get(0).saveInBackground();
+                                Toast.makeText(MySettings.this, "Saved", Toast.LENGTH_LONG)
+                                        .show();
                             } else {
 
                                 ParseObject locationObject = new ParseObject("Settings");
@@ -114,6 +117,8 @@ public class MySettings extends ActionBarActivity {
                                 locationObject.put("userObjectId", user.getObjectId());
                                 locationObject.put("alertWord", accessCode.getText().toString().trim());
                                 locationObject.saveInBackground();
+                                Toast.makeText(MySettings.this, "Saved", Toast.LENGTH_LONG)
+                                        .show();
                             }
                         } else {
 
