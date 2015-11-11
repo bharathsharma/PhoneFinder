@@ -20,6 +20,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import android.content.SharedPreferences;
+import android.widget.EditText;
 
 import java.util.List;
 
@@ -33,11 +34,23 @@ public class MySettings extends ActionBarActivity {
         edit.putBoolean(key,value);
         edit.commit();
     }
-
-    public boolean loadPrefs(String key)
+    public void savePrefs(String key, String value)
+    {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString(key, value);
+        edit.commit();
+    }
+    public boolean loadBoolPrefs(String key)
     {
     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
     boolean cbVal =  sp.getBoolean(key, false);
+        return cbVal;
+    }
+    public String loadStringPrefs(String key)
+    {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String cbVal =  sp.getString(key, "");
         return cbVal;
     }
     @Override
@@ -45,16 +58,19 @@ public class MySettings extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_settings);
         CheckBox checkbox1,checkbox2,checkbox3,checkbox4;
+        EditText accessCode;
         ParseUser user = ParseUser.getCurrentUser();
         checkbox1 = (CheckBox) findViewById(R.id.alertCamera);
         checkbox2= (CheckBox) findViewById(R.id.alertFall);
         checkbox3 = (CheckBox) findViewById(R.id.alertLocation);
         checkbox4 = (CheckBox) findViewById(R.id.alertUsers);
+        accessCode = (EditText) findViewById(R.id.alertAccessCode);
 
-        checkbox1.setChecked(loadPrefs(user.getObjectId()+String.valueOf(R.id.alertCamera)));
-        checkbox2.setChecked(loadPrefs(user.getObjectId()+String.valueOf(R.id.alertFall)));
-        checkbox3.setChecked(loadPrefs(user.getObjectId()+String.valueOf(R.id.alertLocation)));
-        checkbox4.setChecked(loadPrefs(user.getObjectId()+String.valueOf(R.id.alertUsers)));
+        checkbox1.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertCamera)));
+        checkbox2.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertFall)));
+        checkbox3.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertLocation)));
+        checkbox4.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertUsers)));
+        accessCode.setText(loadStringPrefs(user.getObjectId()+String.valueOf(R.id.alertAccessCode)));
 
         ((Button) findViewById(R.id.saveSettings)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,16 +82,18 @@ public class MySettings extends ActionBarActivity {
                         //get current user
                         ParseUser user = ParseUser.getCurrentUser();
                         CheckBox checkbox1, checkbox2, checkbox3, checkbox4;
+                        EditText accessCode;
                         checkbox1 = (CheckBox) findViewById(R.id.alertCamera);
                         checkbox2 = (CheckBox) findViewById(R.id.alertFall);
                         checkbox3 = (CheckBox) findViewById(R.id.alertLocation);
                         checkbox4 = (CheckBox) findViewById(R.id.alertUsers);
+                        accessCode = (EditText)findViewById(R.id.alertAccessCode);
 
                         savePrefs(user.getObjectId()+String.valueOf(R.id.alertCamera), checkbox1.isChecked());
                         savePrefs(user.getObjectId()+String.valueOf(R.id.alertFall), checkbox2.isChecked());
                         savePrefs(user.getObjectId()+String.valueOf(R.id.alertLocation), checkbox3.isChecked());
                         savePrefs(user.getObjectId()+String.valueOf(R.id.alertUsers), checkbox4.isChecked());
-
+                        savePrefs(user.getObjectId()+String.valueOf(R.id.alertAccessCode),accessCode.getText().toString().trim());
                         if (e == null) {
                             if (scoreList.size() > 0) {
                                 //store the location of the user with the objectId of the user
@@ -84,7 +102,7 @@ public class MySettings extends ActionBarActivity {
                                 scoreList.get(0).put("fall", checkbox2.isChecked());
                                 scoreList.get(0).put("location", checkbox3.isChecked());
                                 scoreList.get(0).put("otherUser", checkbox4.isChecked());
-
+                                scoreList.get(0).put("alertWord", accessCode.getText().toString().trim());
                                 scoreList.get(0).saveInBackground();
                             } else {
 
@@ -94,6 +112,7 @@ public class MySettings extends ActionBarActivity {
                                 locationObject.put("location", checkbox3.isChecked());
                                 locationObject.put("otherUser", checkbox4.isChecked());
                                 locationObject.put("userObjectId", user.getObjectId());
+                                locationObject.put("alertWord", accessCode.getText().toString().trim());
                                 locationObject.saveInBackground();
                             }
                         } else {

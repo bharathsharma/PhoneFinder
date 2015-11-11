@@ -22,12 +22,12 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText" />
+        android:id="@+id/unTxt" />
 
     <TextView
         android:layout_width="117dp"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="Access Code"
         android:id="@+id/txt_findphone_pwd"
         android:layout_weight="0.03" />
 
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText2" />
+        android:id="@+id/pwdTxt" />
 
     <Button
         android:id="@+id/findPhoneLogin"

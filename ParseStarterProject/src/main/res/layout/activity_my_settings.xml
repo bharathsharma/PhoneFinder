@@ -64,8 +64,30 @@
         android:layout_height="wrap_content"
         android:text="Save Settings"
         android:id="@+id/saveSettings"
-        android:layout_below="@+id/alertLocation"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="94dp" />
+        android:layout_marginBottom="34dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alertAccessCode"
+        android:text="enter code here"
+        android:layout_above="@+id/saveSettings"
+        android:layout_marginBottom="36dp"
+        android:layout_alignLeft="@+id/alertLocation"
+        android:layout_alignStart="@+id/alertLocation"
+        android:layout_alignRight="@+id/alertFall"
+        android:layout_alignEnd="@+id/alertFall" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ALERT ACCESS CODE"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/alertAccessCode"
+        android:layout_alignLeft="@+id/alertAccessCode"
+        android:layout_alignStart="@+id/alertAccessCode" />
 
 </RelativeLayout>
