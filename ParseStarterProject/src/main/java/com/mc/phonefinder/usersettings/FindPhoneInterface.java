@@ -57,7 +57,8 @@ Alert my phone - Rings the phone to easily identify it
                             ParseGeoPoint userLocation;
                             for (int i = 0; i < objects.size(); i++) {
                                 userLocation = objects.get(i).getParseGeoPoint("location");
-                                String uri = String.format(Locale.ENGLISH, "geo:%f,%f", userLocation.getLatitude(), userLocation.getLongitude());
+                               String uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", userLocation.getLatitude(), userLocation.getLongitude(),userLocation.getLatitude(), userLocation.getLongitude());
+                                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:%f,%f?q=%f,%f",userLocation.getLatitude(), userLocation.getLongitude(),userLocation.getLatitude(), userLocation.getLongitude()));
                                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                                 startActivity(intent);
                                 Toast.makeText(FindPhoneInterface.this, "Opening Maps", Toast.LENGTH_LONG)

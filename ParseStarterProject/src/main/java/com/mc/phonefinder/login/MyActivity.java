@@ -13,8 +13,12 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+
+import com.mc.phonefinder.usersettings.FindPhoneInterface;
+import com.mc.phonefinder.usersettings.LocationService;
 import com.mc.phonefinder.usersettings.MySettings;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -27,17 +31,19 @@ import java.util.Timer;
 
 
 public class MyActivity extends Activity implements LocationListener {
-    final int TIME_INTERVAL = 20000;
-    Timer timer = new   Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+        Intent i = new Intent();
+        i.setClass(this, LocationService.class);
+        i.putExtra("userObjectId", ParseUser.getCurrentUser().getObjectId().toString());
+        startService(new Intent(i));
         LocationManager mgr = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String best = mgr.getBestProvider(criteria, false);
-       criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         mgr.requestLocationUpdates(best, 0, 1, this);
 
         ((Button) findViewById(R.id.action_logout)).setOnClickListener(new View.OnClickListener() {
@@ -155,7 +161,7 @@ public class MyActivity extends Activity implements LocationListener {
         LocationManager mgr = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String best = mgr.getBestProvider(criteria, false);
-        mgr.requestLocationUpdates(best, 10000, 1, this);
+        mgr.requestLocationUpdates(best, 1, 1, this);
     }
 
     @Override
