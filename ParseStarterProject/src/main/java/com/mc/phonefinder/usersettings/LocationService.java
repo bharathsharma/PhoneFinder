@@ -1,5 +1,8 @@
 package com.mc.phonefinder.usersettings;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +16,23 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mc.phonefinder.R;
+import com.mc.phonefinder.login.MyActivity;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
+import com.pubnub.api.PubnubException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,12 +40,12 @@ import java.util.TimerTask;
 public class LocationService extends Service
 {
     public static final String BROADCAST_ACTION = "Hello World";
-    private static final int TWO_SECONDS = 1000;
+    private static final int TWO_SECONDS = 2000;
     public LocationManager locationManager;
 
     public  String ObjectId;
     public Location previousBestLocation = null;
-    private static long UPDATE_INTERVAL = 1*5*1000;  //default
+    private static long UPDATE_INTERVAL = 60000;  //default
     double latitude=0;
     double longitude=0;
     private static Timer timer = new Timer();
@@ -53,25 +66,65 @@ public class LocationService extends Service
                 new TimerTask() {
 
                     public void run() {
-
                         doServiceWork();
 
+                        //finding if we can help any user
+                       try {
+                           ParseQuery<ParseObject> socialQuery = new ParseQuery<ParseObject>("Social");
+                           socialQuery.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+                           socialQuery.findInBackground(new FindCallback<ParseObject>() {
+                               @Override
+                               public void done(List<ParseObject> objects, ParseException e) {
+                                   for (int i = 0; i < objects.size(); i++) {
+                                       String value = objects.get(i).getString("targetIds");
+                                       String split[] = value.split(",");
+                                       for (String val : split) {
+                                           if (val != null && val != "" && !val.isEmpty()) {
+                                               notifyUser(val);
+                                           }
+                                       }
+                                       objects.get(i).deleteInBackground();
+                                   }
+                               }
+                           });
+                       }
+                       catch (Exception e){}
+                        //checking if we got help
+                        try {
+                            ParseQuery<ParseObject> helpQuery = new ParseQuery<ParseObject>("Acknowledge");
+                            String objVal =ParseUser.getCurrentUser().getObjectId();
+                            helpQuery.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+                            final List<List<String>> list = new ArrayList<List<String>>();
+                            List<String> temp = new ArrayList<String>();
+                            list.add(temp);
+                            helpQuery.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> objects, ParseException e) {
+                                    if(objects.size()>0)
+                                    {
+                                        notifyUserMessage();
+
+                                    }
+
+
+                                }
+                            });
+
+                        }
+                        catch (Exception e){
+                            System.out.print(e.getStackTrace());
+                        }
+
                     }
-                }, 1000, UPDATE_INTERVAL);
+                }, 40000, 20000);
         Log.i(getClass().getSimpleName(), "FileScannerService Timer started....");
     }
 
     private void doServiceWork()
     {
-        //do something wotever you want
-        //like reading file or getting data from network
+
         try {
-            /*locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            listener = new MyLocationListener();
-            Criteria criteria = new Criteria();
-            String best = locationManager.getBestProvider(criteria, false);
-            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-            locationManager.requestLocationUpdates(best, 0, 1, (LocationListener) listener);*/
+
             getLocation();
             saveLocation();
 
@@ -196,59 +249,6 @@ public class LocationService extends Service
         return null;
     }
 
-    protected boolean isBetterLocation(Location location, Location currentBestLocation) {
-        if (currentBestLocation == null) {
-            // A new location is always better than no location
-            return true;
-        }
-
-        // Check whether the new location fix is newer or older
-        long timeDelta = location.getTime() - currentBestLocation.getTime();
-        boolean isSignificantlyNewer = timeDelta > TWO_SECONDS;
-        boolean isSignificantlyOlder = timeDelta < -TWO_SECONDS;
-        boolean isNewer = timeDelta > 0;
-
-        // If it's been more than two minutes since the current location, use the new location
-        // because the user has likely moved
-        if (isSignificantlyNewer) {
-            return true;
-            // If the new location is more than two minutes older, it must be worse
-        } else if (isSignificantlyOlder) {
-            return false;
-        }
-
-        // Check whether the new location fix is more or less accurate
-        int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
-        boolean isLessAccurate = accuracyDelta > 0;
-        boolean isMoreAccurate = accuracyDelta < 0;
-        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
-
-        // Check if the old and new location are from the same provider
-        boolean isFromSameProvider = isSameProvider(location.getProvider(),
-                currentBestLocation.getProvider());
-
-        // Determine location quality using a combination of timeliness and accuracy
-        if (isMoreAccurate) {
-            return true;
-        } else if (isNewer && !isLessAccurate) {
-            return true;
-        } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
-            return true;
-        }
-        return false;
-    }
-
-
-
-    /** Checks whether two providers are the same */
-    private boolean isSameProvider(String provider1, String provider2) {
-        if (provider1 == null) {
-            return provider2 == null;
-        }
-        return provider1.equals(provider2);
-    }
-
-
 
     @Override
     public void onDestroy() {
@@ -279,8 +279,38 @@ public class LocationService extends Service
         return START_STICKY;
 
     }
+    public void notifyUserMessage() {
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        Intent intent = new Intent(LocationService.this, ViewMessage.class);
+        //use the flag FLAG_UPDATE_CURRENT to override any notification already there
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Notification notification = new Notification(R.drawable.notification_template_icon_bg, "Some Text", System.currentTimeMillis());
+        notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND;
+
+        notification.setLatestEventInfo(this, "A user has responded for your help request", "Open here to view the user message", contentIntent);
+
+        //10 is a random number I chose to act as the id for this notification
+        notificationManager.notify(10, notification);
+    }
+
+    public void notifyUser(String value) {
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(LocationService.this, HelpActivity.class);
+        intent.putExtra("userObjectId",value);
+        //use the flag FLAG_UPDATE_CURRENT to override any notification already there
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notification = new Notification(R.drawable.notification_template_icon_bg, "Some Text", System.currentTimeMillis());
+        notification.flags = Notification.FLAG_AUTO_CANCEL | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND;
+
+        notification.setLatestEventInfo(this, "A user needs help", "You can help find a lost device within 100 meters from where you are", contentIntent);
+
+        //10 is a random number I chose to act as the id for this notification
+        notificationManager.notify(10, notification);
+    }
 
     public void saveLocation() {
         //get the current location
@@ -313,75 +343,5 @@ String val = ParseUser.getCurrentUser().getObjectId().toString();
             }
         });
     }
-   /* public class MyLocationListener implements LocationListener
-    {
-        double latitude=0;
-        double longitude=0;
-        public void onLocationChanged(final Location loc)
-        {
-            if(isBetterLocation(loc, previousBestLocation)) {
-                loc.getLatitude();
-                loc.getLongitude();
-                intent.putExtra("Latitude", loc.getLatitude());
-                latitude = loc.getLatitude();
-                longitude = loc.getLongitude();
-                intent.putExtra("Longitude", loc.getLongitude());
-                intent.putExtra("Provider", loc.getProvider());
-                saveLocation();
-                sendBroadcast(intent);
 
-            }
-        }
-
-
-        public void saveLocation() {
-            //get the current location
-            //query to see if the user is already added to location
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
-
-            query.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId().toString());
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> scoreList, ParseException e) {
-                    //get current user
-                    ParseUser user = ParseUser.getCurrentUser();
-                    if (e == null) {
-                        if(scoreList.size()>0){
-                            //store the location of the user with the objectId of the user
-                            ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
-                            scoreList.get(0).put("location", point);
-                            scoreList.get(0).put("userId", user.getObjectId());
-                            scoreList.get(0).saveInBackground();}
-                        else
-                        {
-                            ParseObject locationObject = new ParseObject("Location");
-                            ParseGeoPoint point = new ParseGeoPoint(latitude, longitude);
-                            locationObject.put("location", point);
-                            locationObject.put("userId", user.getObjectId());
-                            locationObject.saveInBackground();
-                        }
-                    } else {
-
-                    }
-                }
-            });
-        }
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        public void onProviderDisabled(String provider)
-        {
-            Toast.makeText(getApplicationContext(), "Gps Disabled", Toast.LENGTH_SHORT).show();
-        }
-
-
-        public void onProviderEnabled(String provider)
-        {
-            Toast.makeText( getApplicationContext(), "Gps Enabled", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }*/
 }

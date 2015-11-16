@@ -9,10 +9,16 @@ import android.os.Parcelable;
 
 import com.mc.phonefinder.R;
 import com.parse.Parse;
+import com.parse.ParseInstallation;
+import com.parse.PushService;
+import com.pubnub.api.*;
+import org.json.*;
+
 
 import java.io.Serializable;
 
-public class SampleApplication extends Application implements Serializable
+
+public class SampleApplication extends Application
 {
     private String userId;
     public String  getUserId(){
@@ -23,7 +29,9 @@ public class SampleApplication extends Application implements Serializable
     }
     @Override
     public void onCreate(){
+        super.onCreate();
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_id));
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
 }

@@ -1,69 +1,44 @@
 package com.mc.phonefinder.usersettings;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mc.phonefinder.R;
-import com.mc.phonefinder.login.FindPhoneActivity;
-import com.mc.phonefinder.login.SampleApplication;
+import com.mc.phonefinder.login.MyActivity;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
-public class FindPhoneInterface extends ActionBarActivity {
-/*
-For the below: check if the setting is set for the user and if so let the user use the functionality.
-View location - Referes to location column in Settings table
-Take Picture - Referes to camera in Settings table
-View nearby users - Refers to otherUsers in Settings table
+public class HelpActivity extends ActionBarActivity {
 
-Alert my phone - Rings the phone to easily identify it
- */
-    public void savePrefs(String key, String value)
-    {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor edit = sp.edit();
-        edit.putString(key, value);
-        edit.commit();
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_phone_interface);
-        final String ObjectId = (String)this.getIntent().getSerializableExtra("userObjectId");
+        setContentView(R.layout.activity_help);
 
-        ((Button) findViewById(R.id.nearbyUsers)).setOnClickListener(new View.OnClickListener() {
+
+
+        ((Button) findViewById(R.id.locateUser)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent();
-                savePrefs("findPhoneId",ObjectId);
-                i.setClass(FindPhoneInterface.this, NearbyUserView.class);
-                //i.putExtra("userObjectId", ObjectId);
-                startActivity(i);
-                startActivity(new Intent(FindPhoneInterface.this, NearbyUserView.class));
-            }});
-        ((Button) findViewById(R.id.viewLocation)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(FindPhoneInterface.this, "Getting Your Location", Toast.LENGTH_LONG)
+                Toast.makeText(HelpActivity.this, "Getting users phone location", Toast.LENGTH_LONG)
                         .show();
-                String ObjectId = (String)FindPhoneInterface.this.getIntent().getSerializableExtra("userObjectId");
+                String ObjectId = (String) HelpActivity.this.getIntent().getSerializableExtra("userObjectId");
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
-                if(!ObjectId.equals(null) && !ObjectId.equals(""))
-                {
+                if (!ObjectId.equals(null) && !ObjectId.equals("")) {
                     query.whereEqualTo("userId", ObjectId);
                     query.findInBackground(new FindCallback<ParseObject>() {
                         @Override
@@ -71,11 +46,11 @@ Alert my phone - Rings the phone to easily identify it
                             ParseGeoPoint userLocation;
                             for (int i = 0; i < objects.size(); i++) {
                                 userLocation = objects.get(i).getParseGeoPoint("location");
-                               String uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", userLocation.getLatitude(), userLocation.getLongitude(),userLocation.getLatitude(), userLocation.getLongitude());
+                                String uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f", userLocation.getLatitude(), userLocation.getLongitude(), userLocation.getLatitude(), userLocation.getLongitude());
                                 //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:%f,%f?q=%f,%f",userLocation.getLatitude(), userLocation.getLongitude(),userLocation.getLatitude(), userLocation.getLongitude()));
                                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                                 startActivity(intent);
-                                Toast.makeText(FindPhoneInterface.this, "Opening Maps", Toast.LENGTH_LONG)
+                                Toast.makeText(HelpActivity.this, "Opening Maps", Toast.LENGTH_LONG)
                                         .show();
                             }
                         }
@@ -83,14 +58,30 @@ Alert my phone - Rings the phone to easily identify it
                 }
 
 
-            }});
+            }
+        });
 
+                ((Button) findViewById(R.id.ackUser)).setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Toast.makeText(HelpActivity.this, "Sending user your acknowledgement with the message", Toast.LENGTH_LONG)
+                                .show();
+                        String ObjectId = (String) HelpActivity.this.getIntent().getSerializableExtra("userObjectId");
+                        ParseObject obj = new ParseObject("Acknowledge");
+                        obj.put("userId", ObjectId);
+                        EditText sendUserView = (EditText) findViewById(R.id.msgUser);
+                        if (!sendUserView.getText().toString().isEmpty()) {
+                            obj.put("ack", sendUserView.getText().toString());
+                        }
+                        obj.saveInBackground();
+                        finish();
+                    }
+                });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_find_phone_interface, menu);
+        getMenuInflater().inflate(R.menu.menu_help, menu);
         return true;
     }
 

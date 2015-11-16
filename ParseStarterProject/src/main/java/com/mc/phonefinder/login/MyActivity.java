@@ -13,7 +13,6 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-
 import com.mc.phonefinder.usersettings.FindPhoneInterface;
 import com.mc.phonefinder.usersettings.LocationService;
 import com.mc.phonefinder.usersettings.MySettings;
@@ -25,7 +24,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.mc.phonefinder.R;
-
 import java.util.List;
 import java.util.Timer;
 
@@ -38,7 +36,11 @@ public class MyActivity extends Activity implements LocationListener {
         setContentView(R.layout.activity_my);
         Intent i = new Intent();
         i.setClass(this, LocationService.class);
-        i.putExtra("userObjectId", ParseUser.getCurrentUser().getObjectId().toString());
+        try {
+            i.putExtra("userObjectId", ParseUser.getCurrentUser().getObjectId().toString());
+        }
+        catch (Exception e)
+        {}
         startService(new Intent(i));
         LocationManager mgr = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();

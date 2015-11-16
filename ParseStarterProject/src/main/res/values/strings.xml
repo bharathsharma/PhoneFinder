@@ -48,5 +48,7 @@
     <string name="title_activity_find_phone">FindPhoneActivity</string>
     <string name="title_activity_find_phone_interface">FindPhoneInterface</string>
     <string name="title_activity_nearby_user_view">NearbyUserView</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_activity_view_message">ViewMessage</string>
 
 </resources>

@@ -58,80 +58,85 @@ public class MySettings extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_settings);
-        CheckBox checkbox1,checkbox2,checkbox3,checkbox4;
-        EditText accessCode;
-        ParseUser user = ParseUser.getCurrentUser();
-        checkbox1 = (CheckBox) findViewById(R.id.alertCamera);
-        checkbox2= (CheckBox) findViewById(R.id.alertFall);
-        checkbox3 = (CheckBox) findViewById(R.id.alertLocation);
-        checkbox4 = (CheckBox) findViewById(R.id.alertUsers);
-        accessCode = (EditText) findViewById(R.id.alertAccessCode);
+       try {
+           CheckBox checkbox1, checkbox2, checkbox3, checkbox4;
+           EditText accessCode;
+           ParseUser user = ParseUser.getCurrentUser();
+           checkbox1 = (CheckBox) findViewById(R.id.alertCamera);
+           checkbox2 = (CheckBox) findViewById(R.id.alertFall);
+           checkbox3 = (CheckBox) findViewById(R.id.alertLocation);
+           checkbox4 = (CheckBox) findViewById(R.id.alertUsers);
+           accessCode = (EditText) findViewById(R.id.alertAccessCode);
 
-        checkbox1.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertCamera)));
-        checkbox2.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertFall)));
-        checkbox3.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertLocation)));
-        checkbox4.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertUsers)));
-        accessCode.setText(loadStringPrefs(user.getObjectId()+String.valueOf(R.id.alertAccessCode)));
+           checkbox1.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertCamera)));
+           checkbox2.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertFall)));
+           checkbox3.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertLocation)));
+           checkbox4.setChecked(loadBoolPrefs(user.getObjectId() + String.valueOf(R.id.alertUsers)));
+           accessCode.setText(loadStringPrefs(user.getObjectId() + String.valueOf(R.id.alertAccessCode)));
 
-        ((Button) findViewById(R.id.saveSettings)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Settings");
-                query.whereEqualTo("userObjectId", ParseUser.getCurrentUser().getObjectId().toString());
+           ((Button) findViewById(R.id.saveSettings)).setOnClickListener(new View.OnClickListener() {
+               public void onClick(View v) {
+                   ParseQuery<ParseObject> query = ParseQuery.getQuery("Settings");
+                   query.whereEqualTo("userObjectId", ParseUser.getCurrentUser().getObjectId().toString());
 
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> scoreList, ParseException e) {
-                        //get current user
-                        ParseUser user = ParseUser.getCurrentUser();
-                        CheckBox checkbox1, checkbox2, checkbox3, checkbox4;
-                        EditText accessCode;
-                        checkbox1 = (CheckBox) findViewById(R.id.alertCamera);
-                        checkbox2 = (CheckBox) findViewById(R.id.alertFall);
-                        checkbox3 = (CheckBox) findViewById(R.id.alertLocation);
-                        checkbox4 = (CheckBox) findViewById(R.id.alertUsers);
-                        accessCode = (EditText)findViewById(R.id.alertAccessCode);
+                   query.findInBackground(new FindCallback<ParseObject>() {
+                       public void done(List<ParseObject> scoreList, ParseException e) {
+                           //get current user
+                           ParseUser user = ParseUser.getCurrentUser();
+                           CheckBox checkbox1, checkbox2, checkbox3, checkbox4;
+                           EditText accessCode;
+                           checkbox1 = (CheckBox) findViewById(R.id.alertCamera);
+                           checkbox2 = (CheckBox) findViewById(R.id.alertFall);
+                           checkbox3 = (CheckBox) findViewById(R.id.alertLocation);
+                           checkbox4 = (CheckBox) findViewById(R.id.alertUsers);
+                           accessCode = (EditText) findViewById(R.id.alertAccessCode);
 
-                        savePrefs(user.getObjectId()+String.valueOf(R.id.alertCamera), checkbox1.isChecked());
-                        savePrefs(user.getObjectId()+String.valueOf(R.id.alertFall), checkbox2.isChecked());
-                        savePrefs(user.getObjectId()+String.valueOf(R.id.alertLocation), checkbox3.isChecked());
-                        savePrefs(user.getObjectId()+String.valueOf(R.id.alertUsers), checkbox4.isChecked());
-                        savePrefs(user.getObjectId()+String.valueOf(R.id.alertAccessCode),accessCode.getText().toString().trim());
-                        if (e == null) {
-                            if (scoreList.size() > 0) {
-                                //store the location of the user with the objectId of the user
-                                scoreList.get(0).put("camera", checkbox1.isChecked());
-                                scoreList.get(0).put("userObjectId", user.getObjectId());
-                                scoreList.get(0).put("fall", checkbox2.isChecked());
-                                scoreList.get(0).put("location", checkbox3.isChecked());
-                                scoreList.get(0).put("otherUser", checkbox4.isChecked());
-                                scoreList.get(0).put("alertWord", accessCode.getText().toString().trim());
-                                scoreList.get(0).saveInBackground();
-                                Toast.makeText(MySettings.this, "Saved", Toast.LENGTH_LONG)
-                                        .show();
-                            } else {
+                           savePrefs(user.getObjectId() + String.valueOf(R.id.alertCamera), checkbox1.isChecked());
+                           savePrefs(user.getObjectId() + String.valueOf(R.id.alertFall), checkbox2.isChecked());
+                           savePrefs(user.getObjectId() + String.valueOf(R.id.alertLocation), checkbox3.isChecked());
+                           savePrefs(user.getObjectId() + String.valueOf(R.id.alertUsers), checkbox4.isChecked());
+                           savePrefs(user.getObjectId() + String.valueOf(R.id.alertAccessCode), accessCode.getText().toString().trim());
+                           if (e == null) {
+                               if (scoreList.size() > 0) {
+                                   //store the location of the user with the objectId of the user
+                                   scoreList.get(0).put("camera", checkbox1.isChecked());
+                                   scoreList.get(0).put("userObjectId", user.getObjectId());
+                                   scoreList.get(0).put("fall", checkbox2.isChecked());
+                                   scoreList.get(0).put("location", checkbox3.isChecked());
+                                   scoreList.get(0).put("otherUser", checkbox4.isChecked());
+                                   scoreList.get(0).put("alertWord", accessCode.getText().toString().trim());
+                                   scoreList.get(0).saveInBackground();
+                                   Toast.makeText(MySettings.this, "Saved", Toast.LENGTH_LONG)
+                                           .show();
+                               } else {
 
-                                ParseObject locationObject = new ParseObject("Settings");
-                                locationObject.put("camera", checkbox1.isChecked());
-                                locationObject.put("fall", checkbox2.isChecked());
-                                locationObject.put("location", checkbox3.isChecked());
-                                locationObject.put("otherUser", checkbox4.isChecked());
-                                locationObject.put("userObjectId", user.getObjectId());
-                                locationObject.put("alertWord", accessCode.getText().toString().trim());
-                                locationObject.saveInBackground();
-                                Toast.makeText(MySettings.this, "Saved", Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        } else {
+                                   ParseObject locationObject = new ParseObject("Settings");
+                                   locationObject.put("camera", checkbox1.isChecked());
+                                   locationObject.put("fall", checkbox2.isChecked());
+                                   locationObject.put("location", checkbox3.isChecked());
+                                   locationObject.put("otherUser", checkbox4.isChecked());
+                                   locationObject.put("userObjectId", user.getObjectId());
+                                   locationObject.put("alertWord", accessCode.getText().toString().trim());
+                                   locationObject.saveInBackground();
+                                   Toast.makeText(MySettings.this, "Saved", Toast.LENGTH_LONG)
+                                           .show();
+                               }
+                           } else {
 
-                        }
-                    }
-                });
+                           }
+                       }
+                   });
 
 
-            }
-        });
+               }
+           });
 
-                // Starts an intent of the log in activity
+           // Starts an intent of the log in activity
+       }
+       catch (Exception e)
+       {
 
+       }
 
     }
 

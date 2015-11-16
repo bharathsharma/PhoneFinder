@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.mc.phonefinder.usersettings.HelpActivity">
+
+    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Locate User Phone Location"
+        android:id="@+id/locateUser"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Acknowledge User"
+        android:id="@+id/ackUser"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/locateUser"
+        android:layout_alignStart="@+id/locateUser"
+        android:layout_alignRight="@+id/locateUser"
+        android:layout_alignEnd="@+id/locateUser" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/msgUser"
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/ackUser"
+        android:layout_alignStart="@+id/ackUser"
+        android:layout_alignRight="@+id/ackUser"
+        android:layout_alignEnd="@+id/ackUser" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Send Contact Details"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/ackUser"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
