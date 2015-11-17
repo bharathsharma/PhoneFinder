@@ -311,6 +311,7 @@ public class MySettings extends AppCompatActivity implements SensorEventListener
         }); // Starts an intent of the log in activity
 
         //Camera test function
+        Log.i(TAG,"testing when back press");
         surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
         Log.i(TAG, "Surface view created" + surfaceView);
         surfaceHolder = surfaceView.getHolder();
@@ -365,7 +366,7 @@ public class MySettings extends AppCompatActivity implements SensorEventListener
 
     public void refreshCamera() {
         if (surfaceHolder.getSurface() == null) {
-            // preview surface does not exist
+            Log.i(TAG,"Suface is null");
             return;
         }
 
@@ -398,7 +399,7 @@ public class MySettings extends AppCompatActivity implements SensorEventListener
     public void surfaceCreated(SurfaceHolder holder) {
         try {
             // open the camera
-            Log.i(TAG,"Camera created");
+            Log.i(TAG,"Creating camera");
             if (Camera.getNumberOfCameras() >= 2)
             {
                 camera = Camera.open(1);
@@ -431,7 +432,7 @@ public class MySettings extends AppCompatActivity implements SensorEventListener
     public void surfaceDestroyed(SurfaceHolder holder) {
         // stop preview and release camera
         Log.i(TAG, "destroy");
-        camera.stopPreview();
+       // camera.stopPreview();
         //  camera.release();
         // camera = null;
     }
@@ -531,5 +532,11 @@ public class MySettings extends AppCompatActivity implements SensorEventListener
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void onBackPressed() {
+        Log.i(TAG,"Back key pressed");
+        camera.release();
+        camera = null;
+        finish();
     }
 }

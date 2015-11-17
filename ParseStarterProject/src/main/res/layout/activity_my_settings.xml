@@ -3,7 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/settingsText"
-    android:background="@color/secondary_text_default_material_light">
+    android:background="#e8f4ff">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/saveSettings"
+        android:layout_alignTop="@+id/saveSettings"
+        android:layout_toLeftOf="@+id/saveSettings" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,82 +20,108 @@
         android:text="My Phone Settings"
         android:id="@+id/text_settings"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:capitalize="words"
+        android:textStyle="bold" />
 
     <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:text="Alert Location"
         android:id="@+id/alertLocation"
         android:checked="false"
-        android:layout_alignTop="@+id/alertUsers"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="44dp"
+        android:layout_below="@+id/alertUsers"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="43dp"
-        android:layout_marginStart="43dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="20dp" />
 
     <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Alert Camera"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Auto capture image"
         android:id="@+id/alertCamera"
         android:checked="false"
-        android:layout_marginBottom="79dp"
-        android:layout_above="@+id/alertLocation"
+        android:layout_below="@+id/text_settings"
         android:layout_alignLeft="@+id/alertLocation"
-        android:layout_alignStart="@+id/alertLocation" />
+        android:layout_alignStart="@+id/alertLocation"
+        android:textSize="20dp" />
 
     <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:text="Alert Other Users"
         android:id="@+id/alertUsers"
         android:checked="false"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/alertFall"
         android:layout_alignLeft="@+id/alertFall"
-        android:layout_alignStart="@+id/alertFall" />
+        android:layout_alignStart="@+id/alertFall"
+        android:textSize="20dp" />
 
     <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:text="Alert During Fall"
         android:id="@+id/alertFall"
         android:checked="false"
-        android:layout_alignTop="@+id/alertCamera"
-        android:layout_toRightOf="@+id/alertLocation"
-        android:layout_toEndOf="@+id/alertLocation"
-        android:layout_marginLeft="45dp"
-        android:layout_marginStart="45dp" />
+        android:layout_below="@+id/alertCamera"
+        android:layout_alignLeft="@+id/alertCamera"
+        android:layout_alignStart="@+id/alertCamera"
+        android:textSize="20dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Settings"
         android:id="@+id/saveSettings"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
+        android:layout_marginBottom="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="34dp" />
+        android:layout_alignLeft="@+id/text_settings"
+        android:layout_alignStart="@+id/text_settings"
+        android:layout_marginLeft="35dp"
+        android:background="@drawable/buttonshape"
+        android:layout_alignRight="@+id/text_settings"
+        android:layout_alignEnd="@+id/text_settings" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/alertAccessCode"
-        android:text="enter code here"
+        android:text="Enter code here"
         android:layout_above="@+id/saveSettings"
         android:layout_marginBottom="36dp"
         android:layout_alignLeft="@+id/alertLocation"
         android:layout_alignStart="@+id/alertLocation"
-        android:layout_alignRight="@+id/alertFall"
-        android:layout_alignEnd="@+id/alertFall" />
+        android:layout_alignRight="@+id/alertLocation"
+        android:layout_alignEnd="@+id/alertLocation" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="ALERT ACCESS CODE"
+        android:text="Alert Access Code"
         android:id="@+id/textView2"
         android:layout_above="@+id/alertAccessCode"
         android:layout_alignLeft="@+id/alertAccessCode"
-        android:layout_alignStart="@+id/alertAccessCode" />
+        android:layout_alignStart="@+id/alertAccessCode"
+        android:capitalize="words"
+        android:textSize="21dp"
+        android:layout_marginLeft="40dp" />
+
+    <TextSwitcher
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textSwitcher"
+        android:layout_alignBottom="@+id/alertAccessCode"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2" />
 
 </RelativeLayout>
