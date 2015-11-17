@@ -78,6 +78,10 @@
             android:name=".usersettings.NearbyUserView"
             android:label="@string/title_activity_nearby_user_view" >
         </activity>
+        <activity
+            android:name=".usersettings.ShowPhoneFinderImage"
+            android:label="show_phone_finer_image" >
+        </activity>
 
         <service
             android:name=".usersettings.LocationService"

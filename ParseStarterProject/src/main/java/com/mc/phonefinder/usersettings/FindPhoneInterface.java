@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,11 +30,12 @@ public class FindPhoneInterface extends ActionBarActivity {
 /*
 For the below: check if the setting is set for the user and if so let the user use the functionality.
 View location - Referes to location column in Settings table
-Take Picture - Referes to camera in Settings table
+Show Phone finder image - Displays the image of the person who find the phone
 View nearby users - Refers to otherUsers in Settings table
 
 Alert my phone - Rings the phone to easily identify it
  */
+    static final String TAG="bharathdebug";
     public void savePrefs(String key, String value)
     {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -51,6 +53,7 @@ Alert my phone - Rings the phone to easily identify it
             public void onClick(View v) {
                 Intent i = new Intent();
                 savePrefs("findPhoneId",ObjectId);
+                Log.i(TAG, "FindPhoneInterface Object id " + ObjectId);
                 i.setClass(FindPhoneInterface.this, NearbyUserView.class);
                 //i.putExtra("userObjectId", ObjectId);
                 startActivity(i);
@@ -84,6 +87,19 @@ Alert my phone - Rings the phone to easily identify it
 
 
             }});
+
+
+        //Bharath - View image of person who picked phone
+
+        ((Button) findViewById(R.id.btn_phonepicker)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Starts an intent of the log in activity
+                Log.i(TAG,"Find face object id "+ObjectId);
+                savePrefs("findfaceObjId",ObjectId);
+                startActivity(new Intent(FindPhoneInterface.this, ShowPhoneFinderImage.class));
+            }
+        });
+
 
     }
 
