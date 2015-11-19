@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-present, Parse, LLC.
+  ~ All rights reserved.
+  ~
+  ~ This source code is licensed under the BSD-style license found in the
+  ~ LICENSE file in the root directory of this source tree. An additional grant
+  ~ of patent rights can be found in the PATENTS file in the same directory.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mc.phonefinder" >
+
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <permission
+        android:name="com.mc.phonefinder.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.mc.phonefinder.permission.C2D_MESSAGE" />
+
+    <application
+        android:name=".login.SampleApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="PhoneFinder"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="@string/parse_app_id" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="3Vxdw6pK50OGKRrmLqL5PvaRVa1e3eNNz9LcHsgp" />
+
+        <activity
+            android:name=".login.MyActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".login.DispatchActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.SignUpActivity" />
+        <activity
+            android:name=".usersettings.MySettings"
+            android:label="@string/title_activity_my_settings" >
+        </activity>
+        <activity
+            android:name=".login.FindPhoneActivity"
+            android:label="@string/title_activity_find_phone" >
+        </activity>
+        <activity
+            android:name=".usersettings.FindPhoneInterface"
+            android:label="@string/title_activity_find_phone_interface" >
+        </activity>
+        <activity
+            android:name=".usersettings.NearbyUserView"
+            android:label="@string/title_activity_nearby_user_view" >
+        </activity>
+        <activity
+            android:name=".usersettings.ShowPhoneFinderImage"
+            android:label="show_phone_finer_image" >
+        </activity>
+
+        <service
+            android:name=".usersettings.LocationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service android:name="com.parse.PushService" />
+
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <category android:name="com.mc.phonefinder.login" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".usersettings.HelpActivity"
+            android:label="@string/title_activity_help" >
+        </activity>
+        <activity
+            android:name=".usersettings.ViewMessage"
+            android:label="@string/title_activity_view_message" >
+        </activity>
+    </application>
+
+</manifest>

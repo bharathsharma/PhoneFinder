@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/settingsText"
+    android:background="#e8f4ff">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_toStartOf="@+id/saveSettings"
+        android:layout_alignTop="@+id/saveSettings"
+        android:layout_toLeftOf="@+id/saveSettings" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="My Phone Settings"
+        android:id="@+id/text_settings"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:capitalize="words"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Auto capture image"
+        android:id="@+id/alertCamera"
+        android:checked="false"
+        android:textSize="20dp"
+        android:layout_below="@+id/text_settings"
+        android:layout_alignRight="@+id/text_settings"
+        android:layout_alignEnd="@+id/text_settings" />
+
+    <CheckBox
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Ask Nearby user for help"
+        android:id="@+id/alertUsers"
+        android:checked="false"
+        android:textSize="20dp"
+        android:layout_below="@+id/alertFall"
+        android:layout_alignRight="@+id/text_settings"
+        android:layout_alignEnd="@+id/text_settings"
+        android:layout_marginTop="30dp" />
+
+    <CheckBox
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Alert During Fall"
+        android:id="@+id/alertFall"
+        android:checked="false"
+        android:textSize="20dp"
+        android:layout_below="@+id/textView6"
+        android:layout_alignRight="@+id/text_settings"
+        android:layout_alignEnd="@+id/text_settings" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Settings"
+        android:id="@+id/saveSettings"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/buttonshape"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/alertLocation"
+        android:layout_alignEnd="@+id/alertLocation"
+        android:layout_alignLeft="@+id/text_settings"
+        android:layout_alignStart="@+id/text_settings" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alertAccessCode"
+        android:text="Access code for finding phone"
+        android:layout_below="@+id/alertLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/phNum"
+        android:layout_alignEnd="@+id/phNum" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Automatically captures image of person who picks up phone after phone falls"
+        android:id="@+id/textView6"
+        android:layout_below="@+id/alertCamera"
+        android:layout_alignLeft="@+id/alertCamera"
+        android:layout_alignStart="@+id/alertCamera"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Send SMS to :"
+        android:id="@+id/textView7"
+        android:layout_below="@+id/alertFall"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_alignBottom="@+id/phNum" />
+
+    <CheckBox
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="View my phone Location"
+        android:id="@+id/alertLocation"
+        android:checked="false"
+        android:textSize="20dp"
+        android:layout_below="@+id/alertUsers"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/phNum"
+        android:text="Phone Number"
+        android:layout_below="@+id/alertFall"
+        android:layout_toRightOf="@+id/textView7"
+        android:layout_toEndOf="@+id/textView7" />
+
+</RelativeLayout>
